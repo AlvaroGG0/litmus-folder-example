@@ -18,10 +18,10 @@
   </tr>
   <tr>
     <td align="center"><b>Tunables</b></td>
-    <td>TOTAL_CHAOS_DURATION (sec): 900<br>
-      CHAOS_INTERVAL (sec): 60-120<br>
-      RANDOMNESS: true<br>
-      FORCE: true<br></td>
+    <td>TOTAL_CHAOS_DURATION (sec): <i>900</i><br>
+      CHAOS_INTERVAL (sec): <i>60-120</i><br>
+      RANDOMNESS: <i>true</i><br>
+      FORCE: <i>true</i><br></td>
   </tr>
   <tr>
     <td align=center><b>Probes</b></td>
@@ -29,7 +29,7 @@
   </tr>
   <tr>
     <td align="center"><b>Blast-Radius</b></td>
-    <td colspan="2">In case the hypothesis is not fulfille, there is a risk that the attacked service will be stopped.</td>
+    <td colspan="2">🔵<b>Medium:</b> can cause the failure or affect the performance of more than one non-critical service or component</td>
   </tr>
 </tbody>
 </table>

@@ -1,8 +1,8 @@
-# Chaos Engineering Experiments
+# Chaos Engineering Scenarios
 
 ## Overview
 
-This folder contains all the information regarding the execution of experiments as well as their implementation files in `.yaml` format organized by targets and environments.
+This folder contains all the information regarding the execution of scenarios as well as their implementation files in `.yaml` format organized by targets and environments.
 
 ## Folder Structure
 
@@ -51,50 +51,58 @@ With all of the above steps completed, you can now design your experiment. You n
   </tr>
   <tr>
     <td align="center" rowspan="3"><b>Implementation</b></td>
-    <td align="center"><b>Type</b></td>
+    <td align="center"><a href="https://litmuschaos.github.io/litmus/experiments/categories/contents/" target="_blank" rel="noopener noreferrer"><b>Type</b></a></td>
     <td align="center"></td>
   </tr>
   <tr>
     <td align="center"><b>Tunables</b></td>
-    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td align="center">They can be <a href="https://litmuschaos.github.io/litmus/experiments/concepts/chaos-resources/probes/contents/" target="_blank" rel="noopener noreferrer">common</a> or type-specific</td>
   </tr>
   <tr>
-    <td align=center><b>Probes</b></td>
-    <td></td>
+    <td align=center><a href="https://litmuschaos.github.io/litmus/experiments/concepts/chaos-resources/probes/contents/" target="_blank" rel="noopener noreferrer"><b>Probes</b></a></td>
+    <td align=Center>Pluggable checks that can be defined for any Chaos Experiment which its success is a necessary condition in determining the verdict of the experiment</td>
   </tr>
   <tr>
     <td align="center"><b>Blast-Radius</b></td>
-    <td colspan="2"></td>
+    <td colspan="2">
+    🟢<b>Low<br>
+    🔵Medium<br>
+    🟠High<br>
+    🔴Full</b></td>
   </tr>
 </tbody>
 </table>
 
 #### 5.2. Determine the Blast-Radius level
 
+> The **blast-radius** of a chaos engineering experiment refers to the extent to which the experiment can impact the overall system or application being tested. In other words, **it is the area that may be affected by the experiment in case the hypothesis is not fulfilled.**
+
+The following scale is established to classify scenarios according to their blast-radius:
+
 1. :green_circle: **Low**
 
-These experiments are designed to have a minimal impact on the system, and are typically used to test specific components or features of an application, a service, or an infrastructure component.
+If the hypothesis is not fulfilled, this type of scenario can cause the failure or affect the performance of **one non-critical service or component**.
 
 - Delete a single pod or container to see how the application responds to the failure of a single component.
 - Introduce a network delay between two pods to see how the system handles slow connections.
 
 2. :large_blue_circle: **Medium**
 
-These experiments are more wide-ranging than low blast radius experiments, but are still designed to limit the potential impact on the cluster as a whole.
+If the hypothesis is not fulfilled, this type of scenarios can cause the failure or affect the performance of **more than one non-critical service or component**, without causing effects at the node/cluster level.
 
 - Delete a non-critical deployment to test how the system handles failure of less important components.
 - Introduce a network delay for all traffic to a specific deployment or service to see how it impacts performance and availability.
 
 3. :orange_circle: **High**
 
-These experiments are more aggressive and may involve intentionally causing significant disruptions to the cluster.
+If the hypothesis is not fulfilled, this type of scenarios can cause the failure or affect the performance of **one or more nodes**, without threatening the availability of the entire cluster.
 
 - Simulate a node failure by killing a node and observing how the system handles the disruption.
 - Simulate a network partition by blocking network traffic between nodes in a cluster.
 
 4. :red_circle: **Full**
 
-These experiments are the most extreme and can have a major impact on the entire cluster.
+If the hypothesis is not fulfilled, this type of scenario can cause the failure or affect the performance of **the entire cluster**.
 
 - Simulate a complete cluster outage by shutting down all nodes in a cluster and testing how the system recovers from the failure.
 - Intentionally overload the Kubernetes control plane by generating a high volume of API requests to see how the system handles extreme load.
