@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
 metadata:
-  name: infra-random-pod-delete-1681730319
+  name: infra-random-pod-memory-hog-1681732024
   namespace: litmus
   labels:
-    subject: infra-random-pod-delete_litmus
+    subject: infra-random-pod-memory-hog_litmus
 spec:
   schedule: 0 12 * * 0-6
   concurrencyPolicy: Forbid
@@ -24,28 +24,28 @@ spec:
         steps:
           - - name: install-chaos-experiments
               template: install-chaos-experiments
-          - - name: pod-delete-8rz
-              template: pod-delete-8rz
+          - - name: pod-memory-hog-yae
+              template: pod-memory-hog-yae
           - - name: revert-chaos
               template: revert-chaos
       - name: install-chaos-experiments
         inputs:
           artifacts:
-            - name: pod-delete-8rz
-              path: /tmp/pod-delete-8rz.yaml
+            - name: pod-memory-hog-yae
+              path: /tmp/pod-memory-hog-yae.yaml
               raw:
                 data: >
                   apiVersion: litmuschaos.io/v1alpha1
 
                   description:
                     message: |
-                      Deletes a pod belonging to a deployment/statefulset/daemonset
+                      Injects memory consumption on pods belonging to an app deployment
                   kind: ChaosExperiment
 
                   metadata:
-                    name: pod-delete
+                    name: pod-memory-hog
                     labels:
-                      name: pod-delete
+                      name: pod-memory-hog
                       app.kubernetes.io/part-of: litmus
                       app.kubernetes.io/component: chaosexperiment
                       app.kubernetes.io/version: 3.0.0-beta5
@@ -156,79 +156,88 @@ spec:
                       imagePullPolicy: Always
                       args:
                         - -c
-                        - ./experiments -name pod-delete
+                        - ./experiments -name pod-memory-hog
                       command:
                         - /bin/bash
                       env:
                         - name: TOTAL_CHAOS_DURATION
-                          value: "15"
-                        - name: RAMP_TIME
-                          value: ""
-                        - name: FORCE
-                          value: "true"
-                        - name: CHAOS_INTERVAL
-                          value: "5"
+                          value: "60"
+                        - name: MEMORY_CONSUMPTION
+                          value: "500"
+                        - name: NUMBER_OF_WORKERS
+                          value: "1"
                         - name: PODS_AFFECTED_PERC
                           value: ""
+                        - name: RAMP_TIME
+                          value: ""
+                        - name: LIB_IMAGE
+                          value: litmuschaos/go-runner:3.0.0-beta5
+                        - name: STRESS_IMAGE
+                          value: alexeiled/stress-ng:latest-ubuntu
+                        - name: CONTAINER_RUNTIME
+                          value: containerd
+                        - name: SOCKET_PATH
+                          value: /run/containerd/containerd.sock
+                        - name: SEQUENCE
+                          value: parallel
                         - name: TARGET_PODS
                           value: ""
                         - name: NODE_LABEL
                           value: ""
-                        - name: SEQUENCE
-                          value: parallel
                       labels:
-                        name: pod-delete
+                        name: pod-memory-hog
                         app.kubernetes.io/part-of: litmus
                         app.kubernetes.io/component: experiment-job
+                        app.kubernetes.io/runtime-api-usage: "true"
                         app.kubernetes.io/version: 3.0.0-beta5
         container:
           args:
-            - kubectl apply -f /tmp/pod-delete-8rz.yaml -n
+            - kubectl apply -f /tmp/pod-memory-hog-yae.yaml -n
               {{workflow.parameters.adminModeNamespace}} &&  sleep 30
           command:
             - sh
             - -c
           image: litmuschaos/k8s:3.0.0-beta3
-      - name: pod-delete-8rz
+      - name: pod-memory-hog-yae
         inputs:
           artifacts:
-            - name: pod-delete-8rz
-              path: /tmp/chaosengine-pod-delete-8rz.yaml
+            - name: pod-memory-hog-yae
+              path: /tmp/chaosengine-pod-memory-hog-yae.yaml
               raw:
                 data: |
                   apiVersion: litmuschaos.io/v1alpha1
                   kind: ChaosEngine
                   metadata:
                     namespace: "{{workflow.parameters.adminModeNamespace}}"
-                    generateName: pod-delete-8rz
+                    generateName: pod-memory-hog-yae
                     labels:
                       workflow_run_id: "{{workflow.uid}}"
                   spec:
+                    engineState: active
                     appinfo:
                       appns: ""
                       applabel: chaosTarget=true
                       appkind: deployment
-                    engineState: active
                     chaosServiceAccount: litmus-admin
                     experiments:
-                      - name: pod-delete
+                      - name: pod-memory-hog
                         spec:
                           components:
                             env:
                               - name: TOTAL_CHAOS_DURATION
-                                value: "600"
-                              - name: CHAOS_INTERVAL
-                                value: 60-120
-                              - name: FORCE
-                                value: "true"
+                                value: "360"
+                              - name: MEMORY_CONSUMPTION
+                                value: "1000"
                               - name: PODS_AFFECTED_PERC
                                 value: ""
-                              - name: RANDOMNESS
-                                value: "true"
+                              - name: CONTAINER_RUNTIME
+                                value: containerd
+                              - name: SOCKET_PATH
+                                value: /run/containerd/containerd.sock
                           probe: []
         container:
           args:
-            - -file=/tmp/chaosengine-pod-delete-8rz.yaml
+            - -file=/tmp/chaosengine-pod-memory-hog-yae.yaml
             - -saveName=/tmp/engine-name
           image: litmuschaos/litmus-checker:3.0.0-beta3
       - name: revert-chaos
