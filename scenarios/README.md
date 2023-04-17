@@ -75,7 +75,7 @@ With all of the above steps completed, you can now design your experiment. You n
 
 #### 5.2. Determine the Blast-Radius level
 
-> The **blast-radius** of a chaos engineering experiment refers to the extent to which the experiment can impact the overall system or application being tested. In other words, **it is the area that may be affected by the experiment in case the hypothesis is not fulfilled.**
+The **blast-radius** of a chaos engineering experiment refers to the extent to which the experiment can impact the overall system or application being tested. In other words, **it is the area that may be affected by the experiment in case the hypothesis is not fulfilled.**
 
 The following scale is established to classify scenarios according to their blast-radius:
 

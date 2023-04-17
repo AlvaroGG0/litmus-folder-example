@@ -13,9 +13,11 @@ It consist of the following sections:
 
 - **Scenarios**: contains all the information regarding the execution of scenarios as well as their implementation files in `.yaml` format.
 
+- **Scripts**: Contains some useful scripts that facilitate the operations with Litmus.
+
 ## What is Chaos Engineering?
 
-> Chaos engineering is the practice of deliberately introducing failures or errors into a software system in order to test its resiliency and identify potential weaknesses. The goal of chaos engineering is to proactively identify and fix issues before they can cause major problems or downtime for users.
+Chaos engineering is the practice of deliberately introducing failures or errors into a software system in order to test its resiliency and identify potential weaknesses. The goal of chaos engineering is to proactively identify and fix issues before they can cause major problems or downtime for users.
 
 In a chaos engineering experiment, a squad might intentionally shut down a server, simulate heavy network traffic, or otherwise disrupt normal system behavior. They would then monitor the system's response and collect data on how the system recovered from the disruption.
 
