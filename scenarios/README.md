@@ -56,7 +56,7 @@ With all of the above steps completed, you can now design your experiment. You n
   </tr>
   <tr>
     <td align="center"><b>Tunables</b></td>
-    <td align="center">They can be <a href="https://litmuschaos.github.io/litmus/experiments/concepts/chaos-resources/probes/contents/" target="_blank" rel="noopener noreferrer">common</a> or type-specific</td>
+    <td align="center">They can be <a href="https://litmuschaos.github.io/litmus/experiments/concepts/chaos-resources/probes/contents/" target="_blank" rel="noopener noreferrer">common</a>, <a href="https://litmuschaos.github.io/litmus/experiments/categories/pods/common-tunables-for-pod-experiments/" target="_blank" rel="noopener noreferrer">pod-specific</a>, <a href="https://litmuschaos.github.io/litmus/experiments/categories/nodes/common-tunables-for-node-experiments/" target="_blank" rel="noopener noreferrer">node-specific</a> or type-specific</td>
   </tr>
   <tr>
     <td align=center><a href="https://litmuschaos.github.io/litmus/experiments/concepts/chaos-resources/probes/contents/" target="_blank" rel="noopener noreferrer"><b>Probes</b></a></td>
